@@ -1197,5 +1197,19 @@
         "burned": "Burned",
         "remaining": "Remaining",
         "steps": "Steps"
+    },
+    "ugos": {
+        "cpu": "CPU",
+        "cpuTemp": "CPU Temp",
+        "memory": "Memory",
+        "uptime": "Uptime",
+        "netTx": "Net TX",
+        "netRx": "Net RX",
+        "diskRead": "Disk Read",
+        "diskWrite": "Disk Write",
+        "pool": "Pool",
+        "poolHealth": "Health",
+        "poolUsed": "Used",
+        "poolFree": "Free"
     }
 }

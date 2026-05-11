@@ -149,6 +149,7 @@ const components = {
   unifi: dynamic(() => import("./unifi/component")),
   unifi_drive: dynamic(() => import("./unifi_drive/component")),
   unmanic: dynamic(() => import("./unmanic/component")),
+  ugos: dynamic(() => import("./ugos/component")),
   unraid: dynamic(() => import("./unraid/component")),
   uptimekuma: dynamic(() => import("./uptimekuma/component")),
   uptimerobot: dynamic(() => import("./uptimerobot/component")),

@@ -139,6 +139,7 @@ import tubearchivist from "./tubearchivist/widget";
 import unifi from "./unifi/widget";
 import unifi_drive from "./unifi_drive/widget";
 import unmanic from "./unmanic/widget";
+import ugos from "./ugos/widget";
 import unraid from "./unraid/widget";
 import uptimekuma from "./uptimekuma/widget";
 import uptimerobot from "./uptimerobot/widget";
@@ -299,6 +300,7 @@ const widgets = {
   unifi_console: unifi,
   unifi_drive,
   unmanic,
+  ugos,
   unraid,
   uptimekuma,
   uptimerobot,
