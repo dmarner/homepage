@@ -1,6 +1,6 @@
 import ugosProxyHandler from "./proxy";
 
-const POOL_HEALTH = { 0: "Healthy", 1: "Degraded", 2: "Failed" };
+const POOL_STATUS = { 0: "Healthy", 1: "Degraded", 2: "Failed" };
 
 const widget = {
   api: "{url}/ugreen/{endpoint}",
@@ -38,14 +38,19 @@ const widget = {
       endpoint: "pools",
       ugosPath: "/ugreen/v1/storage/pool/list",
       map: (data) =>
-        (data?.result ?? []).map((pool) => ({
-          name: pool.label || pool.name,
-          health: POOL_HEALTH[pool.health_status] ?? "Unknown",
-          healthy: pool.health_status === 0,
-          total: pool.total ?? 0,
-          used: pool.used ?? 0,
-          free: pool.free ?? 0,
-        })),
+        (data?.result ?? []).map((pool) => {
+          // Pool-level used/free reflect raw block device accounting (used === total,
+          // free === 0). Real filesystem usage lives in the first volume.
+          const vol = pool.volumes?.[0] ?? {};
+          return {
+            name: pool.label || pool.name,
+            health: POOL_STATUS[pool.status] ?? "Unknown",
+            healthy: pool.status === 0,
+            total: pool.total ?? 0,
+            used: vol.used ?? 0,
+            free: vol.available ?? 0,
+          };
+        }),
     },
   },
 };

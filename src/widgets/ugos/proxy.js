@@ -151,11 +151,6 @@ export default async function ugosProxyHandler(req, res, map) {
     return res.status(401).json({ error: `UGOS API error: ${json?.msg ?? "unknown"}` });
   }
 
-  // DEBUG: log raw API response before mapping (remove once field names confirmed)
-  if (endpoint === "pools") {
-    logger.info("UGOS raw pools data: %s", JSON.stringify(json.data));
-  }
-
   let result = json.data ?? {};
   if (map) result = map(result);
 
