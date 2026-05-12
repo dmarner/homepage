@@ -11,13 +11,29 @@ import widgets from "widgets/widgets";
 const logger = createLogger("ugosProxyHandler");
 
 function encryptPassword(pubKeyB64, password) {
-  const pubKeyDer = Buffer.from(pubKeyB64, "base64");
+  const decoded = Buffer.from(pubKeyB64, "base64");
+  const asStr = decoded.toString("utf-8").trim();
+
+  // UGOS wraps its public key in a PEM envelope but uses the wrong header:
+  // it sends SPKI (SubjectPublicKeyInfo) content under "BEGIN RSA PUBLIC KEY"
+  // (a PKCS#1 header). Node.js trusts the header and parses incorrectly.
+  // Fix: strip the envelope to get raw DER, then try SPKI explicitly.
   let pubKey;
-  try {
-    pubKey = crypto.createPublicKey({ key: pubKeyDer, format: "der", type: "spki" });
-  } catch {
-    // Fallback: treat as PEM
-    pubKey = crypto.createPublicKey(pubKeyDer.toString("utf-8"));
+  if (asStr.startsWith("-----")) {
+    const pemBody = asStr.replace(/-----[^-]+-----/g, "").replace(/\s+/g, "");
+    const der = Buffer.from(pemBody, "base64");
+    try {
+      pubKey = crypto.createPublicKey({ key: der, format: "der", type: "spki" });
+    } catch {
+      pubKey = crypto.createPublicKey({ key: der, format: "der", type: "pkcs1" });
+    }
+  } else {
+    // Raw DER — try SPKI first, then PKCS#1
+    try {
+      pubKey = crypto.createPublicKey({ key: decoded, format: "der", type: "spki" });
+    } catch {
+      pubKey = crypto.createPublicKey({ key: decoded, format: "der", type: "pkcs1" });
+    }
   }
   const encrypted = crypto.publicEncrypt(
     { key: pubKey, padding: crypto.constants.RSA_PKCS1_PADDING },
