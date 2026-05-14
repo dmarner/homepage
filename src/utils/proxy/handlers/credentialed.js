@@ -77,6 +77,12 @@ export default async function credentialedProxyHandler(req, res, map) {
         } else {
           headers.Authorization = basicAuthHeader(widget);
         }
+      } else if (widget.type === "ntfy") {
+        if (widget.key) {
+          headers.Authorization = `Bearer ${widget.key}`;
+        } else if (widget.username && widget.password) {
+          headers.Authorization = basicAuthHeader(widget);
+        }
       } else if (widget.type === "proxmox") {
         headers.Authorization = `PVEAPIToken=${widget.username}=${widget.password}`;
       } else if (widget.type === "proxmoxbackupserver") {
@@ -152,6 +158,14 @@ export default async function credentialedProxyHandler(req, res, map) {
 
       if (status >= 400) {
         logger.error("HTTP Error %d calling %s", status, url.toString());
+        return res.status(status).json({
+          error: {
+            message: resultData?.error?.message ?? "HTTP Error",
+            url: sanitizeErrorURL(url),
+            ...(resultData?.error?.rawError ? { rawError: resultData.error.rawError } : {}),
+            data: Buffer.isBuffer(resultData) ? Buffer.from(resultData).toString() : resultData,
+          },
+        });
       }
 
       if (status === 200) {
