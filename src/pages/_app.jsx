@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { appWithTranslation } from "next-i18next";
+import { SessionProvider } from "next-auth/react";
+import { appWithTranslation } from "next-i18next/pages";
 import Head from "next/head";
 import "styles/globals.css";
 import "styles/manrope.css";
@@ -72,28 +73,30 @@ const tailwindSafelist = [
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SWRConfig
-      value={{
-        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
-      }}
-    >
-      <Head>
-        {/* https://nextjs.org/docs/messages/no-document-viewport-meta */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
-      <ColorProvider>
-        <ThemeProvider>
-          <SettingsProvider>
-            <TabProvider>
-              <Component {...pageProps} />
-            </TabProvider>
-          </SettingsProvider>
-        </ThemeProvider>
-      </ColorProvider>
-    </SWRConfig>
+    <SessionProvider session={pageProps.session}>
+      <SWRConfig
+        value={{
+          fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+        }}
+      >
+        <Head>
+          {/* https://nextjs.org/docs/messages/no-document-viewport-meta */}
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
+        </Head>
+        <ColorProvider>
+          <ThemeProvider>
+            <SettingsProvider>
+              <TabProvider>
+                <Component {...pageProps} />
+              </TabProvider>
+            </SettingsProvider>
+          </ThemeProvider>
+        </ColorProvider>
+      </SWRConfig>
+    </SessionProvider>
   );
 }
 
