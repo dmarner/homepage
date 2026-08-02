@@ -71,6 +71,15 @@
         "degraded": "Degraded",
         "no_data": "No storage data available"
     },
+    "duplicati": {
+        "jobs": "Jobs",
+        "stored": "Stored",
+        "lastBackup": "Last Run",
+        "nextRun": "Next Run",
+        "running": "Running",
+        "warnings": "Warnings",
+        "errors": "Errors"
+    },
     "docker": {
         "rx": "RX",
         "tx": "TX",
@@ -465,6 +474,11 @@
         "cpu": "CPU",
         "lxc": "LXC",
         "vms": "VMs"
+    },
+    "pulse": {
+        "nodes": "Nodes",
+        "vms": "VMs",
+        "lxcs": "LXCs"
     },
     "glances": {
         "cpu": "CPU",
@@ -932,9 +946,33 @@
       "mails": "Mails",
       "storage": "Storage"
     },
+    "maintainerr": {
+      "itemsHandled": "Items Handled",
+      "episodesHandled": "Episodes Handled",
+      "moviesHandled": "Movies Handled",
+      "showsHandled": "Shows Handled",
+      "seasonsHandled": "Seasons Handled",
+      "reclaimable": "Reclaimable",
+      "movieReclaimable": "Movie Reclaimable",
+      "showReclaimable": "Show Reclaimable",
+      "totalCapacity": "Total Capacity"
+    },
     "netdata": {
       "warnings": "Warnings",
       "criticals": "Criticals"
+    },
+    "ntfy": {
+      "title": "Title",
+      "priority": "Priority",
+      "lastReceived": "Last Received",
+      "message": "Message",
+      "tags": "Tags",
+      "none": "None",
+      "min": "Min",
+      "low": "Low",
+      "default": "Default",
+      "high": "High",
+      "urgent": "Urgent"
     },
     "plantit": {
         "events": "Events",
@@ -1211,5 +1249,16 @@
         "poolHealth": "Health",
         "poolUsed": "Used",
         "poolFree": "Free"
+    },
+    "syncthing": {
+        "connected": "Connected",
+        "synced": "Synced",
+        "errors": "Errors",
+        "storage": "Storage"
+    },
+    "sportarr": {
+        "wanted": "Wanted",
+        "queued": "Queued",
+        "leagues": "Leagues"
     }
 }
